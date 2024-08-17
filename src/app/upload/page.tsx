@@ -2,7 +2,7 @@ import CardUploader from "@/components/uploader/CardUploader";
 
 const UploadPage = () => {
   return (
-    <div>
+    <div className="container">
       <CardUploader />
     </div>
   );

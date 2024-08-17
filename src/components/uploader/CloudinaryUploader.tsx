@@ -71,7 +71,7 @@ function UploadWidget({ uwConfig, setPublicId, onUpload }: UploadWidgetProps) {
         onClick={initializeCloudinaryWidget}
         disabled={!loaded}
       >
-        {loaded ? "Upload" : "Loading..."}
+        {loaded ? "Upload photos and videos" : "Loading..."}
       </Button>
     </CloudinaryScriptContext.Provider>
   );
