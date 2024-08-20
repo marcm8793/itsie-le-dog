@@ -13,3 +13,8 @@ export type UploadWidgetProps = {
   setPublicId: (id: string) => void;
   onUpload: (url: string) => void;
 };
+
+export type Photo = {
+  id: string;
+  url: string;
+};

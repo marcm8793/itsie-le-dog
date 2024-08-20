@@ -30,7 +30,7 @@ const SignIn = () => {
     try {
       const result = await signInWithEmailAndPassword(email, password);
       if (result) {
-        return router.push("/");
+        return router.push("/upload");
       }
     } catch (error) {
       console.error(error);
