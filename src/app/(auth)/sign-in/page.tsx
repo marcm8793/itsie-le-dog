@@ -47,7 +47,8 @@ const SignIn = () => {
         <CardHeader className="flex-shrink-0">
           <CardTitle>Sign In</CardTitle>
           <CardDescription>
-            Enter your email and password to sign in.
+            Enter your email and password to sign in to upload photos and videos
+            of Itsie le dog.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow overflow-y-auto">
