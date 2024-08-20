@@ -29,6 +29,14 @@ export const metadata: Metadata = {
     title: "Itsie le dog",
     description: "To always remember Itsie le dog",
     siteName: "Itsie le dog",
+    images: [
+      {
+        url: "./og.jpg",
+        width: 800,
+        height: 600,
+        alt: "Itsie le dog",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
