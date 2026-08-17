@@ -8,7 +8,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Link
           href="/"
-          className="text-3xl font-bold tracking-tight bg-gradient-to-b from-slate-500 to-neutral-700 text-transparent bg-clip-text dark:from-slate-400 dark:to-neutral-300"
+          className="text-3xl font-bold tracking-tight bg-linear-to-b from-slate-500 to-neutral-700 text-transparent bg-clip-text dark:from-slate-400 dark:to-neutral-300"
         >
           Itsie le dog
         </Link>

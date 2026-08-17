@@ -44,14 +44,14 @@ const SignIn = () => {
   return (
     <div className="flex justify-center items-center h-[calc(100vh-88px)] dark:bg-inherit p-4">
       <Card className="w-full max-w-[350px] flex flex-col">
-        <CardHeader className="flex-shrink-0">
+        <CardHeader className="shrink-0">
           <CardTitle>Sign In</CardTitle>
           <CardDescription>
             Enter your email and password to sign in to upload photos and videos
             of Itsie le dog.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow overflow-y-auto">
+        <CardContent className="grow overflow-y-auto">
           <form onSubmit={handleSignIn} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -85,7 +85,7 @@ const SignIn = () => {
             If you don&apos;t have credentials, please ask Marc for access.
           </p>
         </CardContent>
-        <CardFooter className="flex flex-col space-y-2 flex-shrink-0">
+        <CardFooter className="flex flex-col space-y-2 shrink-0">
           <Button className="w-full" onClick={handleSignIn} disabled={loading}>
             {loading ? (
               <>

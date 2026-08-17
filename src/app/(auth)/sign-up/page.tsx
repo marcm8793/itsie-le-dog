@@ -51,18 +51,18 @@ const SignUp = () => {
     <div className="flex justify-center items-center h-[calc(100vh-88px)] p-4">
       <Link
         href="/"
-        className="text-3xl font-bold tracking-tight bg-gradient-to-b from-slate-500 to-neutral-700 text-transparent bg-clip-text dark:from-slate-400 dark:to-neutral-300"
+        className="text-3xl font-bold tracking-tight bg-linear-to-b from-slate-500 to-neutral-700 text-transparent bg-clip-text dark:from-slate-400 dark:to-neutral-300"
       >
         Itsie le dog
       </Link>
       {/* <Card className="w-full max-w-[350px] flex flex-col">
-        <CardHeader className="flex-shrink-0">
+        <CardHeader className="shrink-0">
           <CardTitle>Sign Up</CardTitle>
           <CardDescription>
             Create a new account to get started.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow overflow-y-auto">
+        <CardContent className="grow overflow-y-auto">
           <form onSubmit={handleSignUp} className="space-y-4">
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
