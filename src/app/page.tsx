@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -24,31 +24,37 @@ const DogPhotoGallery: React.FC = () => {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [autoplay, setAutoplay] = useState(false);
 
-  const fetchPhotosFromCloudinary = useCallback(async () => {
-    try {
-      console.log("Fetching photos...");
-      const response = await fetch("/api/photos");
-      console.log("Response status:", response.status);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      const fetchedPhotos = data.resources.map((resource: any) => ({
-        id: resource.public_id,
-        url: resource.secure_url,
-      }));
-      setPhotos(fetchedPhotos);
-      setError(null);
-    } catch (error) {
-      console.error("Error fetching photos from Cloudinary:", error);
-      setError("Failed to fetch photos. Please try again later.");
-    }
-  }, []);
-
   useEffect(() => {
-    fetchPhotosFromCloudinary();
-  }, [fetchPhotosFromCloudinary]);
+    const controller = new AbortController();
+
+    async function loadPhotos() {
+      try {
+        const response = await fetch("/api/photos", {
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setPhotos(
+          data.resources.map((resource: any) => ({
+            id: resource.public_id,
+            url: resource.secure_url,
+          }))
+        );
+        setError(null);
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+        console.error("Error fetching photos from Cloudinary:", error);
+        setError("Failed to fetch photos. Please try again later.");
+      }
+    }
+
+    loadPhotos();
+    return () => controller.abort();
+  }, []);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);

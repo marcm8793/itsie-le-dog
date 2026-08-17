@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useSyncExternalStore, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { UploadWidgetProps, UwConfig } from "@/types";
@@ -18,23 +18,42 @@ declare global {
 
 const CloudinaryScriptContext = createContext({ loaded: false });
 
-function UploadWidget({ uwConfig, setPublicId, onUpload }: UploadWidgetProps) {
-  const [loaded, setLoaded] = useState(false);
-  const { toast } = useToast();
+const UW_SCRIPT_ID = "uw";
+const UW_SCRIPT_SRC = "https://upload-widget.cloudinary.com/global/all.js";
 
-  useEffect(() => {
-    const uwScript = document.getElementById("uw") as HTMLScriptElement;
-    if (!uwScript) {
-      const script = document.createElement("script");
-      script.setAttribute("async", "");
-      script.setAttribute("id", "uw");
-      script.src = "https://upload-widget.cloudinary.com/global/all.js";
-      script.addEventListener("load", () => setLoaded(true));
-      document.body.appendChild(script);
-    } else {
-      setLoaded(true);
-    }
-  }, []);
+/**
+ * Injects the Cloudinary widget script (once) and notifies React when it has
+ * finished evaluating. Reading `window.cloudinary` rather than tracking our own
+ * flag means a script tag that exists but hasn't loaded yet still reports as
+ * not-ready, instead of enabling the button too early.
+ */
+function subscribeToUploadWidget(onStoreChange: () => void) {
+  let script = document.getElementById(
+    UW_SCRIPT_ID
+  ) as HTMLScriptElement | null;
+
+  if (!script) {
+    script = document.createElement("script");
+    script.async = true;
+    script.id = UW_SCRIPT_ID;
+    script.src = UW_SCRIPT_SRC;
+    document.body.appendChild(script);
+  }
+
+  script.addEventListener("load", onStoreChange);
+  return () => script?.removeEventListener("load", onStoreChange);
+}
+
+const getUploadWidgetSnapshot = () => Boolean(window.cloudinary);
+const getUploadWidgetServerSnapshot = () => false;
+
+function UploadWidget({ uwConfig, setPublicId, onUpload }: UploadWidgetProps) {
+  const loaded = useSyncExternalStore(
+    subscribeToUploadWidget,
+    getUploadWidgetSnapshot,
+    getUploadWidgetServerSnapshot
+  );
+  const { toast } = useToast();
 
   const initializeCloudinaryWidget = useCallback(() => {
     if (loaded && window.cloudinary) {
